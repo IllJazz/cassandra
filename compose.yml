@@ -12,12 +12,12 @@ services:
         max_attempts: 3
         window: 120s
     environment:
-      CASSANDRA_BROADCAST_ADDRESS: cassandra1
+      CASSANDRA_BROADCAST_ADDRESS: 192.168.99.101
     volumes:
     - volume1:/var/lib/cassandra
     - casconfig1:/etc/cassandra
     ports:
-    - "7000:7000"
+    - "7000"
     - "7199"
     - "9160"
     - "9042"
@@ -35,8 +35,8 @@ services:
         max_attempts: 3
         window: 120s
     environment:
-      CASSANDRA_BROADCAST_ADDRESS: cassandra2
-      CASSANDRA_SEEDS: 192.168.99.103
+      CASSANDRA_BROADCAST_ADDRESS: 192.168.99.102
+      CASSANDRA_SEEDS: 192.168.99.101
     depends_on:
       - cassandra-1
     volumes:

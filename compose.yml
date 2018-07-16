@@ -35,7 +35,7 @@ services:
         condition: on-failure
         max_attempts: 3
         window: 120s
-   # environment:
+    environment:
       #CASSANDRA_BROADCAST_ADDRESS: 192.168.99.102
       #CASSANDRA_LISTEN_ADDRESS: 10.0.0.4
       CASSANDRA_SEEDS: cassandra1

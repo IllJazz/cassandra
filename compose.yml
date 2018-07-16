@@ -11,13 +11,13 @@ services:
         condition: on-failure
         max_attempts: 3
         window: 120s
-    environment:
-      CASSANDRA_BROADCAST_ADDRESS: 10.0.0.48
-      CASSANDRA_LISTEN_ADDRESS: 10.0.0.48
-      CASSANDRA_SEEDS:
-    volumes:
-    - volume1:/var/lib/cassandra
-    - casconfig1:/etc/cassandra
+    #environment:
+     # CASSANDRA_BROADCAST_ADDRESS: 10.0.0.48
+      #CASSANDRA_LISTEN_ADDRESS: 10.0.0.48
+      #CASSANDRA_SEEDS:
+    #volumes:
+    #- volume1:/var/lib/cassandra
+    #- casconfig1:/etc/cassandra
     ports:
     - "7000"
     - "7199"
@@ -36,15 +36,15 @@ services:
         condition: on-failure
         max_attempts: 3
         window: 120s
-    environment:
+    #environment:
       #CASSANDRA_BROADCAST_ADDRESS: 192.168.99.102
       #CASSANDRA_LISTEN_ADDRESS: 10.0.0.4
-      CASSANDRA_SEEDS: 10.0.0.48
+     # CASSANDRA_SEEDS: 10.0.0.48
     depends_on:
-      - cassandra-1
-    volumes:
-    - volume2:/var/lib/cassandra
-    - casconfig2:/etc/cassandra
+      - cassandra1
+    #volumes:
+    #- volume2:/var/lib/cassandra
+    #- casconfig2:/etc/cassandra
     ports:
     - "7000"
     - "7199"
@@ -52,13 +52,13 @@ services:
     - "9042"
     networks:
       default:
-volumes:
-  volume1:
-    external: true
-  volume2:
-    external: true
-  casconfig1:
-  casconfig2:
+#volumes:
+  #volume1:
+    #external: true
+ # volume2:
+    #external: true
+  #casconfig1:
+  #casconfig2:
 networks:
   default:
     external:

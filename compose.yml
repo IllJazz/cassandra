@@ -11,9 +11,10 @@ services:
         condition: on-failure
         max_attempts: 3
         window: 120s
-   # environment:
-      #CASSANDRA_BROADCAST_ADDRESS: 192.168.99.101
-      #CASSANDRA_LISTEN_ADDRESS: 10.0.0.4
+    environment:
+      CASSANDRA_BROADCAST_ADDRESS: 10.0.0.48
+      CASSANDRA_LISTEN_ADDRESS: 10.0.0.48
+      CASSANDRA_SEEDS:
     volumes:
     - volume1:/var/lib/cassandra
     - casconfig1:/etc/cassandra

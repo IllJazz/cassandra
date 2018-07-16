@@ -1,0 +1,33 @@
+version: '3'
+services:
+  cassandra1:
+    image: cassandra
+    deploy:
+      replicas: 1
+    #  placement:
+        #constraints:
+         # [node.hostname == cassandra1]
+     # restart_policy:
+      #  condition: on-failure
+     #   max_attempts: 3
+      #  window: 120s
+    environment:
+      CASSANDRA_BROADCAST_ADDRESS: cassandra1
+    volumes:
+    - volume1:/var/lib/cassandra
+    - casconfig1:/etc/cassandra
+    ports:
+    - "7000:7000"
+    - "7199"
+    - "9160"
+    - "9042"
+    networks:
+      default:
+volumes:
+  volume1:
+    external: true
+  casconfig1:
+networks:
+  default:
+    external:
+       name: cassandra-net

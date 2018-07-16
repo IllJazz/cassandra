@@ -1,0 +1,55 @@
+version: '3'
+services:
+  casseed:
+    image: cassandra
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          [node.hostname == default]
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+        window: 120s
+    environment:
+      CASSANDRA_BROADCAST_ADDRESS: 192.168.88.100
+      CASSANDRA_START_RPC: "true"
+    ports:
+    - "7000:7000"
+    - "7199"
+    - "9160"
+    - "9042"
+    networks:
+      default:
+    volumes:
+      - /etc/cassandra
+  cas1:
+    image: cassandra
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          [node.hostname == cassandra1]
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+        window: 120s
+    environment:
+      CASSANDRA_BROADCAST_ADDRESS: 192.168.88.101
+      CASSANDRA_SEEDS: 192.168.99.100
+      CASSANDRA_START_RPC: "true"
+    depends_on:
+      - casseed
+    ports:
+    - "7000"
+    - "7199"
+    - "9160"
+    - "9042"
+    networks:
+      default:
+    volumes:
+      - /etc/cassandra
+networks:
+  default:
+    external:
+       name: cassandra-net

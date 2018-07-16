@@ -11,6 +11,8 @@ RUN set -ex; \
 		libjemalloc1 \
 # free is used by cassandra-env.sh
 		procps \
+# curl for installing gosu
+        curl \		
 # "ip" is not required by Cassandra itself, but is commonly used in scripting Cassandra's configuration (since it is so fixated on explicit IP addresses)
 		iproute2 \
 	; \
@@ -24,6 +26,7 @@ RUN set -ex; \
 
 # grab gosu for easy step-down from root
 ENV GOSU_VERSION 1.10
+<<<<<<< HEAD
 RUN set -x \
 	&& apt-get update && apt-get install -y --no-install-recommends ca-certificates wget && rm -rf /var/lib/apt/lists/* \
 	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
@@ -34,6 +37,25 @@ RUN set -x \
 	&& rm -rf "$GNUPGHOME" /usr/local/bin/gosu.asc \
 	&& chmod +x /usr/local/bin/gosu \
 	&& gosu nobody true \
+=======
+RUN set -x && \
+    curl -Lo /usr/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64" && \
+    curl -Lo /tmp/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64.asc" && \
+    export GNUPGHOME="$(mktemp -d)" && \
+    for server in $(shuf -e ha.pool.sks-keyservers.net \
+                            hkp://p80.pool.sks-keyservers.net:80 \
+                            keyserver.ubuntu.com \
+                            hkp://keyserver.ubuntu.com:80 \
+                            pgp.mit.edu) ; do \
+        gpg --keyserver "$server" --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 && break || : ; \
+    done && \
+    gpg --batch --verify /tmp/gosu.asc /usr/bin/gosu && \
+    rm -r "$GNUPGHOME" /tmp/gosu.asc && \
+    chmod +x /usr/bin/gosu && \
+    # Allow user to become root
+    #chmod u+s /usr/bin/gosu && \
+    gosu nobody true \
+>>>>>>> b709eeabef243f5ad4660108caa723043826c4d2
 	&& apt-get purge -y --auto-remove ca-certificates wget
 
 # https://wiki.apache.org/cassandra/DebianPackaging#Adding_Repository_Keys

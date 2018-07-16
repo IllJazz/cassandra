@@ -7,10 +7,10 @@ docker stack deploy -c compose.yml cas
 # on seed
 docker exec -ti $(docker ps -q)  nodetool status
 # on worker
-docker exec -ti $(docker ps -q) cqlsh cassandra1
+docker exec -ti $(docker ps -q) cat /etc/cassandra/cassandra.yaml | grep seed
 
-# get ip (doesnt work in swarm)
-docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(docker ps -q)
+# get ip's
+docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -q)
 
 # DiagnoseTools 
 apt-get update && \

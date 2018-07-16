@@ -38,7 +38,7 @@ services:
     environment:
       #CASSANDRA_BROADCAST_ADDRESS: 192.168.99.102
       #CASSANDRA_LISTEN_ADDRESS: 10.0.0.4
-      CASSANDRA_SEEDS: cassandra1
+      CASSANDRA_SEEDS: 10.0.0.48
     depends_on:
       - cassandra-1
     volumes:

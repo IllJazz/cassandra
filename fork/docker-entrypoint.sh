@@ -90,5 +90,5 @@ SCRIPT WILL WAIT FOR CASSANDRA TO BE FULLY BOOTED'
     fi
   done
 fi
-
+chmod o+w /dev/stdout
 exec "$@"

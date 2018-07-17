@@ -57,7 +57,7 @@ SCRIPT WILL WAIT FOR CASSANDRA TO BE FULLY BOOTED'
 
     echo "cassandra_seeds set as $CASSANDRA_SEEDS"
 
-    . replace_node_patch.sh
+    /replace_node_patch.sh
     # CASSANDRA_SEEDS=$(eval $SEEDS_COMMAND)
   fi
   

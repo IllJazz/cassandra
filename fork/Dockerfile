@@ -10,6 +10,7 @@ RUN chmod -R 777 /dev/stdout \
     && chown -R cassandra home/cassandra
 	
 COPY *.sh /
+RUN chmod 777 *.sh
 RUN cat replace_node_patch.sh >> $CASSANDRA_CONFIG/cassandra-env.sh \
     && rm replace_node_patch.sh
 	

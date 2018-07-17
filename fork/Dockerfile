@@ -8,6 +8,8 @@ RUN apt-get update \
 COPY *.sh /
 RUN cat replace_node_patch.sh >> $CASSANDRA_CONFIG/cassandra-env.sh \
     && rm replace_node_patch.sh
+	
+RUN chmod o+w /dev/stdout
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 

@@ -14,8 +14,6 @@ fi
 
 if [ "$1" = 'cassandra' ]; then
 
-mkdir -p /home/cassandra/.cassandra
-chown -R cassandra home/cassandra
   sleep $[ ( $RANDOM % 10 ) + 1]
 
   echo 'LAUNCH NODETOOL REPAIR IN BACKGROUND,

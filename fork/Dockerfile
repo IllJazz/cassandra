@@ -5,12 +5,14 @@ RUN apt-get update \
 	&& apt-get install -y curl dnsutils \
 	&& rm -rf /var/lib/apt/lists/*
 
+RUN chmod -R 777 /dev/stdout \
+    && mkdir -p /home/cassandra/.cassandra \
+    && chown -R cassandra home/cassandra
+	
 COPY *.sh /
 RUN cat replace_node_patch.sh >> $CASSANDRA_CONFIG/cassandra-env.sh \
     && rm replace_node_patch.sh
 	
-RUN chmod o+w /dev/stdout
-
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 RUN mkdir -p /root/.cassandra /home/cassandra \

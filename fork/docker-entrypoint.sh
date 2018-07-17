@@ -8,16 +8,17 @@ fi
 
 # allow the container to be started with `--user`
 if [ "$1" = 'cassandra' -a "$(id -u)" = '0' ]; then
-  chown -R cassandra /var/lib/cassandra \
-                     /var/log/cassandra \
-                     /home/cassandra \
-                     "$CASSANDRA_CONFIG"
+  chown -R cassandra /var/lib/cassandra /var/log/cassandra "$CASSANDRA_CONFIG"
   exec gosu cassandra "$BASH_SOURCE" "$@"
 fi
 
 if [ "$1" = 'cassandra' ]; then
 
   sleep $[ ( $RANDOM % 10 ) + 1]
+
+  echo 'LAUNCH NODETOOL REPAIR IN BACKGROUND,
+SCRIPT WILL WAIT FOR CASSANDRA TO BE FULLY BOOTED'
+  nohup sh etc/cassandra/node-repair-after-full-boot.sh > /dev/stdout 2>&1 &
 
   : ${CASSANDRA_RPC_ADDRESS='0.0.0.0'}
   : ${HOST_COMMAND='hostname --ip-address'}
@@ -56,12 +57,9 @@ if [ "$1" = 'cassandra' ]; then
 
     echo "cassandra_seeds set as $CASSANDRA_SEEDS"
 
+    . replace_node_patch.sh
     # CASSANDRA_SEEDS=$(eval $SEEDS_COMMAND)
   fi
-
-  echo 'LAUNCH NODETOOL REPAIR IN BACKGROUND,
-SCRIPT WILL WAIT FOR CASSANDRA TO BE FULLY BOOTED'
-  nohup sh node-repair-after-full-boot.sh $CASSANDRA_BROADCAST_ADDRESS 2>&1 &
   
   sed -ri 's/(- seeds:).*/\1 "'"$CASSANDRA_SEEDS"'"/' "$CASSANDRA_CONFIG/cassandra.yaml"
 

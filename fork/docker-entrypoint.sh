@@ -11,7 +11,7 @@ if [ "$1" = 'cassandra' -a "$(id -u)" = '0' ]; then
   chown -R cassandra /var/lib/cassandra /var/log/cassandra "$CASSANDRA_CONFIG"
   exec gosu cassandra "$BASH_SOURCE" "$@"
 fi
-exec gosu cassandra chmod o+w /dev/stdout
+su -c 'chmod o+w /dev/stdout'
 if [ "$1" = 'cassandra' ]; then
 
 mkdir -p /home/cassandra/.cassandra

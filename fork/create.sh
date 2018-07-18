@@ -13,6 +13,7 @@ if [ $1 == "" ]
     echo "To scale service manually type: docker service scale cassandra=<number of replicas>"
   else
     if [ $1 == "1" ]
+	then
 	else 
 		for ((i=2;i<=$1;i++))
 		do

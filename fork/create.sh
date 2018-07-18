@@ -1,4 +1,3 @@
-#!/bin/bash
 # Cassandra Cluster StartUp Script
 echo "Starting Single Cassandra Node"
 docker network create -d overlay --attachable casnet

@@ -16,7 +16,8 @@ if [ $1 == "" ]
 	  then
 	    echo "" 
 	else 
-		for ((i=2;i<=$1;i++))
+	    z=$i+0
+		for ((i=2;i<=z;i++))
 		do
 		  echo "Scaling up to $i instances"
 		  sleep 20

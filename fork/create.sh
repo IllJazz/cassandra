@@ -11,18 +11,17 @@ docker service create \
 if [ $1 == "" ]
   then
     echo "To scale service manually type: docker service scale cassandra=<number of replicas>"
-  else
-    if [ $1 == "1" ]
-	  then
-	    echo "" 
-	else 
-	    z = 2
-		while [ z <= $1 ]
-		do
-		  echo "Scaling up to $z instances"
-		  sleep 20
-		  docker service scale cassandra=$z
-		  $z ++
-		done
-	fi
+fi
+if [ $1 == "1" ]
+  then
+	echo "" 
+else 
+	z = 2
+	while [ z <= $1 ]
+	do
+	  echo "Scaling up to $z instances"
+	  sleep 20
+	  docker service scale cassandra=$z
+	  $z ++
+	done
 fi

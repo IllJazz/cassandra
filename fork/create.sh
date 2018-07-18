@@ -1,4 +1,5 @@
 # Cassandra Cluster StartUp Script
+set -x
 echo "Starting Single Cassandra Node"
 docker network create -d overlay --attachable casnet
 docker service create \
@@ -10,7 +11,7 @@ docker service create \
 
 if [ $1 == "" ]
   then
-    echo "To scale service manually type: docker service scale cassandra=<number of replicas>"
+    echo "To scale service manually type 'docker service scale cassandra=<number of replicas>'"
 fi
 if [ $1 == "1" ]
   then

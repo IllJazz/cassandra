@@ -16,12 +16,13 @@ if [ $1 == "" ]
 	  then
 	    echo "" 
 	else 
-	    z=$i+0
-		for ((i=2;i<=z;i++))
+	    z = 2
+		while [ z <= $1 ]
 		do
-		  echo "Scaling up to $i instances"
+		  echo "Scaling up to $z instances"
 		  sleep 20
-		  docker service scale cassandra=$i
+		  docker service scale cassandra=$z
+		  $z ++
 		done
 	fi
 fi

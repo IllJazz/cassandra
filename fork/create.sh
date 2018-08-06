@@ -1,3 +1,4 @@
+#!/bin/bash
 # Cassandra Cluster StartUp Script
 set -x
 echo "Starting Single Cassandra Node"

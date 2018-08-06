@@ -19,7 +19,6 @@ if [ $1 == "1" ]
 else 
 	z = 2
 	while [ "$z" -le "$1" ]; do
-	do
 	  echo "Scaling up to $z instances"
 	  sleep 20
 	  docker service scale cassandra=$z

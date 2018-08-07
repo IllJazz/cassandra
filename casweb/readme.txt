@@ -1,0 +1,1 @@
+docker run --net casnet --name casweb -d -p 3000:3000 192.168.99.100:5000/casweb:latest

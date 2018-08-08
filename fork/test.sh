@@ -1,6 +1,7 @@
 ##########################
 # Cassandra Startup Script
 ##########################
+set -e
 # Create Network
 echo "=============================="
 echo "== Creating Overlay Network =="

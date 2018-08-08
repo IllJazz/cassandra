@@ -3,10 +3,15 @@
 ##########################
 set -e
 # Create Network
-echo "=============================="
-echo "== Creating Overlay Network =="
-echo "=============================="
+NETEX=$(docker network ls | grep casnet | awk '{print $2}')
+if [[ ! $NETEX=="casnet" ]]; then
+  echo "=============================="
+  echo "== Creating Overlay Network =="
+  echo "=============================="
 docker network create -d overlay --attachable casnet
+else 
+  echo "== Network allready exists =="
+fi
 # Start first instance
 echo "=============================="
 echo "= Starting Cassandra Cluster ="

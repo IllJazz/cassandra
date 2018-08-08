@@ -16,8 +16,8 @@ docker service create \
   -e HEAP_NEWSIZE=12M \
   -e MAX_HEAP_SIZE=64M \
   --mode=global
-  --mount type=volume,source=casdata,destination=/var/lib/cassandra/,volume-label="ssd=true"
-  192.168.99.100:5000/casfork
+  --mount type=volume,source=casdata,destination=/var/lib/cassandra/,volume-label="ssd=true" \
+  192.168.99.100:5000/casfork \
 
 # Scaling up
 if [ "$1" ]

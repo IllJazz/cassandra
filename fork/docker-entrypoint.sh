@@ -16,9 +16,10 @@ if [ "$1" = 'cassandra' ]; then
 
   sleep $[ ( $RANDOM % 10 ) + 1]
 
-  echo 'LAUNCH NODETOOL REPAIR IN BACKGROUND,
-SCRIPT WILL WAIT FOR CASSANDRA TO BE FULLY BOOTED'
-  nohup sh etc/cassandra/node-repair-after-full-boot.sh > /dev/stdout 2>&1 &
+  #echo 'LAUNCH NODETOOL REPAIR IN BACKGROUND,
+#SCRIPT WILL WAIT FOR CASSANDRA TO BE FULLY BOOTED'
+  cat etc/cassandra/node-repair-after-full-boot.sh
+  #nohup sh etc/cassandra/node-repair-after-full-boot.sh > /dev/stdout 2>&1 &
 
   : ${CASSANDRA_RPC_ADDRESS='0.0.0.0'}
   : ${HOST_COMMAND='hostname --ip-address'}

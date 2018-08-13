@@ -1,0 +1,8 @@
+- persistent volumes casdata:/var/lib/cassandra
+- using global mode -> only one instance per node
+
+# replicated mode
+#- scaling service with initial 3 nodes is working
+#- scaling up after scaling down doesn't work -> need to reuse of IP or remove "dead node"
+#- restart VM -> Dead Node has to be removed manually (noderemove) in order to let the node join with new IP
+

@@ -1,0 +1,1 @@
+docker exec -it $(docker ps | grep cassandra | awk '{print $1}') bash -c 'apt-get update && apt-get install' $($1)

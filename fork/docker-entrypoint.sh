@@ -18,7 +18,6 @@ if [ "$1" = 'cassandra' ]; then
 
   #echo 'LAUNCH NODETOOL REPAIR IN BACKGROUND,
 #SCRIPT WILL WAIT FOR CASSANDRA TO BE FULLY BOOTED'
-  cat etc/cassandra/node-repair-after-full-boot.sh
   #nohup sh etc/cassandra/node-repair-after-full-boot.sh > /dev/stdout 2>&1 &
 
   : ${CASSANDRA_RPC_ADDRESS='0.0.0.0'}

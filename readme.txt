@@ -11,7 +11,7 @@ docker stack deploy -c compose.yml cas # doesnt work in swarm mode
 # Watch Nodes
  # on seed
    docker exec -ti $(docker ps -q)  nodetool status
-   docker exec -it $(docker ps | grep cassandra.1 | awk '{print $1}') nodetool status
+   docker exec -it $(docker ps | grep cassandra | awk '{print $1}') nodetool status
  # on worker
    docker exec -ti $(docker ps -q) cat /etc/cassandra/cassandra.yaml | grep 'seeds:' | awk '{print$3}' | sed 's/"//g'
    docker exec -ti $(docker ps -q) cat /etc/cassandra/cassandra.yaml | grep 'endpoint_snitch:' | awk '{print $2}'

@@ -1,4 +1,4 @@
-# create keyspace and table for testdata
+﻿# create keyspace and table for testdata
 CREATE KEYSPACE test
   WITH REPLICATION = { 
    'class' : 'SimpleStrategy', 
@@ -31,8 +31,10 @@ FROM '/var/lib/cassandra/xaa' WITH HEADER = FALSE ;
 # 2. Kopieren in den richtigen Container (verteilen, vielleicht umbennen für einheitliches loadscript) oder zugriff auf geteiltes volume
 # 3. Script ausführen und (falls nicht vorhanden) Tabellen erstellen
 
-# oder mit docker-machine cp?
-# (auf default bereits vorhanden)
+# split into number of cassandra instances
+split -n 3 export_ilja_10.csv.gz "import_10_"
+
+
 scp xab docker@192.168.99.101:/home/docker/
 scp xac docker@192.168.99.102:/home/docker/
 

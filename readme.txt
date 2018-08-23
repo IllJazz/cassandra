@@ -13,14 +13,14 @@ docker stack deploy -c compose.yml cas # doesnt work in swarm mode
    docker exec -ti $(docker ps -q)  nodetool status
    docker exec -it $(docker ps | grep cassandra | awk '{print $1}') nodetool status
  # on worker
-   docker exec -ti $(docker ps -q) cat /etc/cassandra/cassandra.yaml | grep 'seeds:' | awk '{print$3}' | sed 's/"//g'
-   docker exec -ti $(docker ps -q) cat /etc/cassandra/cassandra.yaml | grep 'endpoint_snitch:' | awk '{print $2}'
+   docker exec -it $(docker ps | grep cassandra | awk '{print $1}') cat /etc/cassandra/cassandra.yaml | grep 'seeds:' | awk '{print$3}' | sed 's/"//g'
+   docker exec -it $(docker ps | grep cassandra | awk '{print $1}') cat /etc/cassandra/cassandra.yaml | grep 'endpoint_snitch:' | awk '{print $2}'
      # on windows powershell
        docker exec -ti $(docker ps -q) cat /etc/cassandra/cassandra.yaml | select-string seed
 
 # get ip's
 docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -q)
-docker service inspect --format='{{json .Endpoint.VirtualIPs}}' cas_cassandra1
+docker service inspect --format='{{json .Endpoint.VirtualIPs}}' cassandra
 # of other nodes
 docker -H=tcp://192.168.99.102:2376 inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker -H=tcp://192.168.99.102:2376 ps -q)
 
@@ -45,6 +45,11 @@ docker service create \
   -e HEAP_NEWSIZE=12M \
   -e MAX_HEAP_SIZE=64M \
   192.168.99.100:5000/casfork
+
+# Adding Constraints
+  # only deploy on workers
+docker service update --constraint-add node.role==worker cassandra
+  
 # webscam/cassandra:swarm_test (original)
   # onwindows
   docker service create --name cassandra --network mynetwork 192.168.99.100:5000/casfork
@@ -57,6 +62,7 @@ docker stack deploy -c docker-compose.yml --with-registry-auth
 --constraint 'node.role == worker' # only on worker nodes
 
 # Diagnose
+docker service ps -f desired-state=running cassandra
 docker node inspect <NODENAME> --pretty
 
 # Webinterface
@@ -71,3 +77,8 @@ delermando/docker-cassandra-web:v0.4.0
   docker run -d --name cassandra-web -e CASSANDRA_HOST_IP=192.168.99.101 -e CASSANDRA_PORT=9042 -p 3000:3000 delermando/docker-cassandra-web:v0.4.0
   # in swarm
 docker run -d --net casnet --name casweb -p 3000:3000 192.168.99.100:5000/casweb
+
+# row count java executable for installing in container
+apt-get update && apt-get install wget
+wget https://github.com/brianmhess/cassandra-count/releases/download/v0.0.6/cassandra-count
+./cassandra-count -host 127.0.0.1 -keyspace test -table test2

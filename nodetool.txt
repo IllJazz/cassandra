@@ -1,2 +1,6 @@
 # Anzeigen der IP auf dem der Partition-Key liegt
 nodetool getendpoints test test2 991443c0773c4cee47eaa8e53dfea3e69ad60d72d14a4010be7003e0da3876a2
+# read/write latency
+nodetool proxyhistograms
+# threadpool stats
+nodetool tpstats

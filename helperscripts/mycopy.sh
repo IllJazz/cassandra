@@ -10,4 +10,5 @@ docker create volume casdata
 # untar data to volume
 docker run --rm -it -v casdata:/to -v /home/docker:/from alpine sh -c "cd /to ; tar -xpvf /from/data.tar"
 # start cassandra (node join)
-# remove old node
+# remove old node or replace?
+

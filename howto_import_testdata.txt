@@ -27,21 +27,32 @@ FROM '/var/lib/cassandra/xaa' WITH HEADER = FALSE ;
 
 ##################################
 # script for copy to container 3x
-# 1. CSV splitten
+# 1. CSV splitten - auf Manager
 # 2. Kopieren in den richtigen Container (verteilen, vielleicht umbennen für einheitliches loadscript) oder zugriff auf geteiltes volume
 # 3. Script ausführen und (falls nicht vorhanden) Tabellen erstellen
 
-# split into number of cassandra instances
-split -n 3 export_ilja_10.csv.gz "import_10_"
+# split into number of cassandra instances - Script mit Variablen FILENAME, NUMBER_INSTANCES
+split -n 3 --numeric=1 export_ilja_10.csv.gz "import_10_"
 
+# copy to host machine
+scp import_10_ab.csv.gz docker@192.168.99.102:/home/docker/
+scp import_10_ac.csv.gz docker@192.168.99.103:/home/docker/
 
-scp xab docker@192.168.99.101:/home/docker/
-scp xac docker@192.168.99.102:/home/docker/
+# copy to Container
+docker cp /home/docker/import_10_01.csv.gz $(docker ps | grep cassandra | awk '{print $1}'):/var/lib/cassandra/import.csv.gz
+docker cp /home/docker/import_10_02.csv.gz $(docker ps | grep cassandra | awk '{print $1}'):/var/lib/cassandra/import.csv.gz
+docker cp /home/docker/import_10_03.csv.gz $(docker ps | grep cassandra | awk '{print $1}'):/var/lib/cassandra/import.csv.gz
 
-docker cp xaa $(docker ps | grep cassandra | awk '{print $1}'):/var/lib/cassandra
-docker cp /home/docker/xab $(docker ps | grep cassandra | awk '{print $1}'):/var/lib/cassandra
-docker cp /home/docker/xac $(docker ps | grep cassandra | awk '{print $1}'):/var/lib/cassandra
+# unpack archives
+docker exec -ti $(docker ps | grep cassandra | awk '{print $1}') <Script ausführen>
+<Script>
+ cd /var/lib/cassandra
+ tar -xvf import import.csv
+ rm import
+ cqlsh -e "COPY test.testdata (charge, clus, dst, hist, enumber, etime, rnumber, nlb, qxb, tracks, vertex, zdc) FROM '/var/lib/cassandra/import.csv' WITH HEADER = FALSE ;"
+</Script>
 
+# import data to Cassandra DB
 docker exec -ti $(docker ps | grep cassandra | awk '{print $1}') cqlsh -e "COPY test.testdata (charge, clus, dst, hist, enumber, etime, rnumber, nlb, qxb, tracks, vertex, zdc) 
 FROM '/var/lib/cassandra/xaa' WITH HEADER = FALSE ;"
 

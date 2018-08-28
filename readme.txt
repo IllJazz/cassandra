@@ -46,9 +46,13 @@ docker service create \
   -e MAX_HEAP_SIZE=64M \
   192.168.99.100:5000/casfork
 
+# Adding Labels
+ docker node update --label-add cassandra=true cassandra1  
+  
 # Adding Constraints
   # only deploy on workers
 docker service update --constraint-add node.role==worker cassandra
+docker service update --constraint-add 'node.labels.cassandra==true' cassandra
   
 # webscam/cassandra:swarm_test (original)
   # onwindows

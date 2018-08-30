@@ -22,9 +22,13 @@ docker service create \
   -e HEAP_NEWSIZE=12M \
   -e MAX_HEAP_SIZE=64M \
   --mode=global \
-  --mount type=volume,source=casdata,destination=/var/lib/cassandra/,volume-label="ssd=true" \
+  --constraint 'node.labels.cassandra==true' \
+  --mount type=volume,source=casdata,destination=/var/lib/cassandra/ \
   192.168.99.100:5000/casfork
 
+    #--placement-pref 'spread=node.labels.cassandra' \
+  
+  
 # Scaling up
 if [ "$1" ]
 then
@@ -43,4 +47,4 @@ sleep 10
 
 # Nodetool on Seed
 echo "======================="
-docker exec -it $(docker ps | grep cassandra.1 | awk '{print $1}') nodetool status
+docker exec -it $(docker ps | grep cassandra | awk '{print $1}') nodetool status

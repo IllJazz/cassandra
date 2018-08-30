@@ -1,0 +1,10 @@
+# Drivers for COPY performance
+apt-get update && apt-get install gcc python-dev -y
+apt-get install libev4 libev-dev -y
+#apt-get install python-setuptools -y
+easy_install pip
+pip install cassandra-driver;
+export CQLSH_NO_BUNDLED=TRUE
+apt-get update && apt-get install dstat
+# monitor performance 
+dstat -lvrn 10

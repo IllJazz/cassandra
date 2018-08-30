@@ -1,3 +1,10 @@
+# Open Ports on VMs
+
+    TCP port 2377 for cluster management communications
+    TCP and UDP port 7946 for communication among nodes
+    TCP and UDP port 4789 for overlay network traffic
+
+
 # New Swarm Node
 docker-machine create --driver virtualbox --engine-insecure-registry 192.168.99.100:5000 cassandra<N>
 docker -H=tcp://192.168.99.103:2376 swarm join --token $(docker -H=tcp://192.168.99.101:2376 swarm join-token worker -q) 192.168.99.101

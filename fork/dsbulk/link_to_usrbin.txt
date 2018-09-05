@@ -1,4 +1,0 @@
-# copy to /opt
-docker cp ..
-# link to usr/bin
-ln -s /opt/dsbulk/bin/dsbulk dsbulk

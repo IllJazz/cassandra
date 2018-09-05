@@ -6,11 +6,11 @@ sudo vi /var/lib/boot2docker/bootsync.sh
 
 #!/bin/sh
 /etc/init.d/services/dhcp stop
-ifconfig eth1 192.168.99.50 netmask 255.255.255.0 broadcast 192.168.99.255 up
+ifconfig eth1 192.168.99.100 netmask 255.255.255.0 broadcast 192.168.99.255 up
 
 sudo chmod 755 /var/lib/boot2docker/bootsync.sh
 exit
 
-Restart machine and regenerate certs
+# Restart machine and regenerate certs
 docker-machine restart default
 docker-machine regenerate-certs default

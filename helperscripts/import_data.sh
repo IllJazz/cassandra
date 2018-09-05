@@ -20,7 +20,7 @@ done
 #######################
 # declare CQL Command # 
 CQL="COPY test.test2 (uuid1, number1, uuid2, date1, number2, boo1, number3, number4, number5, number6, date2) \
-FROM '/var/lib/cassandra/import.csv' WITH HEADER = FALSE AND MINBATCHSIZE = 2 AND MAXBATCHSIZE = 20 AND MAXROWS = 10000000 AND CHUNKSIZE=4800";
+FROM '/var/lib/cassandra/import.csv' WITH HEADER = FALSE AND MINBATCHSIZE = 2 AND MAXBATCHSIZE = 20 AND MAXROWS = 10000000 AND CHUNKSIZE=4000";
 #######################
  
 NUMBER_OF_HOSTS=$(echo $NODES | wc -w)
@@ -47,7 +47,6 @@ unzip_archive() {
 import() {
  HOST=$1;
   docker -H tcp://$HOST:2376 exec $(docker -H tcp://$HOST:2376 ps | grep cassandra | awk '{print $1}') cqlsh -e "$CQL" &
-  PID
   echo "PID $!";
  }
 #####
@@ -60,8 +59,8 @@ copy_new() {
  for HOST in $NODES;
  do
   echo "Copying data to $(docker -H tcp://$HOST:2376 ps | grep cassandra | awk '{print $1}') on host $HOST ...";
-  docker -H tcp://$HOST:2376 cp $HOME/projects/cassandra_cluster/testdata/import0$i.csv \
-  $(docker -H tcp://$HOST:2376 ps | grep cassandra | awk '{print $1}'):/var/lib/cassandra/import.csv;
+  #docker -H tcp://$HOST:2376 cp $HOME/projects/cassandra_cluster/testdata/import0$i.csv \
+  #$(docker -H tcp://$HOST:2376 ps | grep cassandra | awk '{print $1}'):/var/lib/cassandra/import.csv;
   echo "done";
   echo "Importing data to Cassandra-DB in background ..."; 
   import $HOST ;
@@ -97,7 +96,7 @@ show_results() {
 }
 
 # Calling the Functions
-unzip_archive
+# unzip_archive
 copy_new
 #importtest2 "192.168.99.103"
 

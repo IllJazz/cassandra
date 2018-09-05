@@ -20,7 +20,7 @@ docker service create \
   --name cassandra \
   --network casnet \
   -e HEAP_NEWSIZE=12M \
-  -e MAX_HEAP_SIZE=64M \
+  -e MAX_HEAP_SIZE=512M \
   --mode=global \
   --constraint 'node.labels.cassandra==true' \
   --mount type=volume,source=casdata,destination=/var/lib/cassandra/ \

@@ -1,0 +1,4 @@
+# To connect to Docker Volumes via WinSCP
+Protokoll: SCP
+Entferntes Verzeichnis: /mnt/sda1/var/lib/docker/
+Erweiterte Einstellungen: shell -> sudo -s

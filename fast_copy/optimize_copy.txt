@@ -1,0 +1,9 @@
+# C-Extension
+apt-get update && apt-get install -y gcc python-dev
+# Python installer
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+python get-pip.py
+# avoid build phase of cython
+CASS_DRIVER_NO_CYTHON=1 pip install cassandra-driver
+# libdev - A full-featured and high-performance event loop
+apt-get install libev4 libev-dev

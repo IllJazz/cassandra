@@ -19,7 +19,7 @@ echo "=============================="
 docker service create \
   --name cassandra \
   --network casnet \
-  -e HEAP_NEWSIZE=12M \
+  -e HEAP_NEWSIZE=24M \
   -e MAX_HEAP_SIZE=512M \
   --mode=global \
   --constraint 'node.labels.cassandra==true' \

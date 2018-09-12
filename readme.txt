@@ -4,10 +4,16 @@
     TCP and UDP port 7946 for communication among nodes
     TCP and UDP port 4789 for overlay network traffic
 
+# Create Machine
+docker-machine create -d virtualbox --engine-insecure-registry 192.168.99.100:5000 --engine-label cassandra=true --swarm-host "tcp://192.168.99.100:3376" cassandra4
+
 
 # New Swarm Node
 docker-machine create --driver virtualbox --engine-insecure-registry 192.168.99.100:5000 cassandra<N>
-docker -H=tcp://192.168.99.103:2376 swarm join --token $(docker -H=tcp://192.168.99.101:2376 swarm join-token worker -q) 192.168.99.101
+ # ./join_vode.sh <new_ip> <master_ip> 
+ docker -H=tcp://192.168.99.103:2376 swarm join --token $(docker -H=tcp://192.168.99.101:2376 swarm join-token worker -q) 192.168.99.101
+ # on manager
+ docker node update --label-add cassandra=true <new_node_name>
 
 # clean system
 docker system prune

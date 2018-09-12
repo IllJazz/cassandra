@@ -1,0 +1,30 @@
+# on Remote Host
+# install docker-machine
+  base=https://github.com/docker/machine/releases/download/v0.14.0 &&
+    curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
+    sudo install /tmp/docker-machine /usr/local/bin/docker-machine
+# oder  
+  curl -L https://github.com/docker/machine/releases/download/v0.15.0/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
+    chmod +x /tmp/docker-machine &&
+    sudo cp /tmp/docker-machine /usr/local/bin/docker-machine
+
+# edit /etc/ssh/sshd_config
+  - enable authentification via password
+  (PasswordAuthentification yes)
+ # restart sshd
+ - sudo systemctl restart sshd
+# on Client
+- ssh-copy-id ~/.ssh/id_rsa vagrant@192.168.88.13
+# on Remote Host
+- edit /etc/ssh/sshd_config
+  - disable authentification via password
+  (PasswordAuthentification yes)
+- service ssh restart
+# create docker-machine
+	docker-machine create --driver generic \
+	--generic-ip-address=192.168.42.61 \
+	--generic-ssh-user vagrant \
+	--engine-insecure-registry 192.168.99.100:5000 \
+	node_xy
+# test
+docker -H tcp://192.168.42.61:2376 ps
